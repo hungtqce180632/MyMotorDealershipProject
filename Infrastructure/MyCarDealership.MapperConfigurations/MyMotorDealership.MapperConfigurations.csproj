@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\MyCarDealership.Data.Models\MyMotorDealership.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Services\MyCarDealership.Services\MyMotorDealership.Services.csproj" />
+    <ProjectReference Include="..\..\Web\MyCarDealership.Web.ViewModels\MyMotorDealership.Web.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>

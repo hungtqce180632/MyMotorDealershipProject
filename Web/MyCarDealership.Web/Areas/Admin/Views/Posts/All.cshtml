@@ -1,0 +1,43 @@
+﻿@model PostsListAdminAreaViewModel
+
+@{
+    this.ViewData["Title"] = "Posts Administration";
+}
+
+<h2 class="heading-margin text-center">@this.ViewData["Title"]@(Model.PagesCount > 1 ? $", page {Model.PageNumber}" : string.Empty)</h2>
+<div class="col-md-10 offset-md-1">
+    <table class="table table-responsive">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Make</th>
+            <th scope="col">Model</th>
+            <th scope="col">Year</th>
+            <th scope="col">Price</th>
+            <th scope="col">Approved</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var post in Model.Posts)
+        {
+            <tr>
+                <td>@post.Motor.Id</td>
+                <td>@post.Motor.Make</td>
+                <td>@post.Motor.Model</td>
+                <td>@post.Motor.Year</td>
+                <td>@post.Motor.Price</td>
+                <td>@(post.IsPublic ? "Yes" : "No")</td>
+                <td>
+                    <a asp-area="" asp-controller="Posts" asp-action="Delete" asp-route-id="@post.Motor.Id" class="btn btn-danger float-end mx-1">Delete</a>
+                    <a asp-area="" asp-controller="Posts" asp-action="Edit" asp-route-id="@post.Motor.Id" class="btn btn-dark float-end mx-1">Edit</a>
+                    <a asp-area="" asp-controller="Posts" asp-action="Offer" asp-route-id="@post.Motor.Id" class="btn btn-secondary float-end mx-1">View</a>
+                    <a asp-area="Admin" asp-controller="Posts" asp-action="ChangeVisibility" asp-route-id="@post.Motor.Id" class="btn btn-warning float-end mx-1">@(post.IsPublic ? "Hide" : "Show")</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+<hr />
+<partial name="_PagingPartial" model="@Model" />

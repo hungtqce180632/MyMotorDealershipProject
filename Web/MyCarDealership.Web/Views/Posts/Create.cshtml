@@ -1,0 +1,144 @@
+﻿@model MyMotorDealership.Web.ViewModels.Posts.PostFormInputModel
+
+@{
+    this.ViewData["Title"] = "Create a new post";
+    var extraTypes = new Dictionary<int, string>();
+}
+
+<form method="post" class="col-md-6 offset-md-3" enctype="multipart/form-data">
+    <h2 class="heading-margin text-center"><i>Create a new Motor post</i></h2>
+    <div class="row mb-3">
+        <div class="col-md-6 mb-3">
+            <label asp-for="@Model.Motor.Make" class="form-label"></label>
+            <input asp-for="@Model.Motor.Make" class="form-control" placeholder="Mercedes, BMW, Honda, etc...">
+            <span asp-validation-for="@Model.Motor.Make" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="@Model.Motor.Model" class="form-label"></label>
+            <input asp-for="@Model.Motor.Model" class="form-control" placeholder="S-Class, 640D, Accord, etc...">
+            <span asp-validation-for="@Model.Motor.Model" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.Motor.Description" class="form-label"></label>
+        <textarea asp-for="@Model.Motor.Description" class="form-control" rows="6" placeholder="This is the perfect Motor..."></textarea>
+        <span asp-validation-for="@Model.Motor.Description" class="text-danger"></span>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4 mb-3 mt-3">
+            <label asp-for="@Model.Motor.CategoryId" class="form-label"></label>
+            <select asp-for="@Model.Motor.CategoryId" class="form-select">
+                <option disabled selected>Choose category</option>
+                @foreach (var category in Model.Motor.Categories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </select>
+            <span asp-validation-for="@Model.Motor.CategoryId" class="small text-danger"></span>
+        </div>
+        <div class="col-md-4 mb-3 mt-3">
+            <label asp-for="@Model.Motor.FuelTypeId" class="form-label"></label>
+            <select asp-for="@Model.Motor.FuelTypeId" class="form-select">
+                <option disabled selected>Choose fuel type</option>
+                @foreach (var fuelType in Model.Motor.FuelTypes)
+                {
+                    <option value="@fuelType.Id">@fuelType.Name</option>
+                }
+            </select>
+            <span asp-validation-for="@Model.Motor.FuelTypeId" class="small text-danger"></span>
+        </div>
+        <div class="col-md-4 mb-3 mt-3">
+            <label asp-for="@Model.Motor.TransmissionTypeId" class="form-label"></label>
+            <select asp-for="@Model.Motor.TransmissionTypeId" class="form-select">
+                <option disabled selected>Choose transmission type</option>
+                @foreach (var transmissionType in Model.Motor.TransmissionTypes)
+                {
+                    <option value="@transmissionType.Id">@transmissionType.Name</option>
+                }
+            </select>
+            <span asp-validation-for="@Model.Motor.TransmissionTypeId" class="small text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4 mb-3 mt-3">
+            <label asp-for="@Model.Motor.Year" class="form-label"></label>
+            <input asp-for="@Model.Motor.Year" class="form-control">
+            <span asp-validation-for="@Model.Motor.Year" class="text-danger"></span>
+        </div>
+        <div class="col-md-4 mb-3 mt-3">
+            <label asp-for="@Model.Motor.Kilometers" class="form-label"></label>
+            <input asp-for="@Model.Motor.Kilometers" class="form-control">
+            <span asp-validation-for="@Model.Motor.Kilometers" class="text-danger"></span>
+        </div>
+        <div class="col-md-4 mb-3 mt-3">
+            <label asp-for="@Model.Motor.Horsepower" class="form-label"></label>
+            <input asp-for="@Model.Motor.Horsepower" class="form-control">
+            <span asp-validation-for="@Model.Motor.Horsepower" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4 mb-3">
+            <label asp-for="@Model.Motor.Price" class="form-label"></label>
+            <input asp-for="@Model.Motor.Price" class="form-control">
+            <span asp-validation-for="@Model.Motor.Price" class="text-danger"></span>
+        </div>
+        <div class="col-md-8 mb-3">
+            <label asp-for="@Model.Motor.Images" class="form-label"></label>
+            <input asp-for="@Model.Motor.Images" class="form-control" />
+            <span asp-validation-for="@Model.Motor.Images" class="text-danger"></span>
+            <span class="text-danger">@Html.ValidationMessage("CustomError")</span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-6 mb-3">
+            <label asp-for="@Model.Motor.LocationCountry" class="form-label"></label>
+            <input asp-for="@Model.Motor.LocationCountry" class="form-control">
+            <span asp-validation-for="@Model.Motor.LocationCountry" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="@Model.Motor.LocationCity" class="form-label"></label>
+            <input asp-for="@Model.Motor.LocationCity" class="form-control">
+            <span asp-validation-for="@Model.Motor.LocationCity" class="text-danger"></span>
+        </div>
+    </div>
+    <hr />
+    <h5 class="mb-1 text-center">Motor extras:</h5>
+    <div class="row">
+        <div class="col">
+            @foreach (var MotorExtra in Model.Motor.MotorExtras)
+            {
+                @if (!extraTypes.ContainsKey(MotorExtra.TypeId))
+                {
+                    extraTypes[MotorExtra.TypeId] = MotorExtra.TypeName;
+                    <div class="mb-2 mt-3"><h6>@MotorExtra.TypeName</h6></div>
+                }
+
+                <div class="form-check-inline mb-2">
+                    <input id="extra_@MotorExtra.Id"
+                           class="form-check-input"
+                           type="checkbox"
+                           name="SelectedExtrasIds"
+                           value="@MotorExtra.Id"
+                           @(Model.SelectedExtrasIds.Contains(MotorExtra.Id) ? "checked" : "")>
+                    <label class="form-check-label" for="extra_@MotorExtra.Id">@MotorExtra.Name</label>
+                </div>
+            }
+        </div>
+    </div>
+    <hr />
+    <h5 class="mb-3 text-center">Contact information:</h5>
+    <div class="row mb-3">
+        <div class="col-md-6 mb-3">
+            <label asp-for="@Model.SellerName" class="form-label"></label>
+            <input asp-for="@Model.SellerName" class="form-control">
+            <span asp-validation-for="@Model.SellerName" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="@Model.SellerPhoneNumber" class="form-label"></label>
+            <input asp-for="@Model.SellerPhoneNumber" class="form-control">
+            <span asp-validation-for="@Model.SellerPhoneNumber" class="text-danger"></span>
+        </div>
+    </div>
+    <hr />
+    <div align="center"><input type="submit" class="btn btn-dark col-4" value="Create" /></div>
+</form>

@@ -1,0 +1,48 @@
+﻿@model MyMotorDealership.Web.ViewModels.Posts.PostByUserViewModel
+
+@{
+    ViewData["Title"] = "Delete post";
+}
+
+<h3 class="text-center my-4">Are you sure you want to delete this post?</h3>
+<div class="row text-center">
+    <div class="col-md-8 offset-md-2">
+        <table class="table table-striped table-bordered my-3">
+            <thead>
+            <tr>
+                <th scope="col">@Html.DisplayNameFor(model => model.Motor.Make)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Motor.Model)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Motor.Year)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Motor.Price)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>@Model.Motor.Make</td>
+                <td>@Model.Motor.Model</td>
+                <td>@Model.Motor.Year</td>
+                <td>€@Model.Motor.Price.ToString("N", CultureInfo.InvariantCulture).Replace(".00", string.Empty)</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6 offset-md-3">
+        <img src="@Model.Motor.CoverImage" class="img-fluid rounded" alt="@Model.Motor.Make @Model.Motor.Model @Model.Motor.Year">
+    </div>
+</div>
+<div class="row text-center my-3">
+    <form class="my-3" asp-action="Delete">
+        <input type="hidden" asp-for="@Model.Motor.Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        @if (this.User.IsInRole("Administrator"))
+        {
+            <a asp-area="Admin" asp-controller="Posts" asp-action="All" class="btn btn-dark" role="button">Cancel</a>
+        }
+        else
+        {
+            <a asp-action="Mine" class="btn btn-dark" role="button">Cancel</a>
+        }
+
+    </form>
+    <hr class="my-3" />
+</div>
